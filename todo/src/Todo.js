@@ -8,12 +8,15 @@ import List from "./components/List";
 import TodoForm from "./components/TodoForm";
 // importando a classe de Item
 import Item from "./components/Item";
+// importando o componente de modal
+import Modal from "./components/Modal";
 
 const SAVED_ITEMS = "savedItems";
 
 // criando a função como componente
 function Todo() {
-  
+  // criando um estado para mostrar o modal
+  const [showModal, setShowModal] = useState(false);
   // criando o estado para adicionar os itens a lista
   const [items, setItems] = useState([]);
   // pega os dados do input para o localStorage
@@ -34,6 +37,7 @@ function Todo() {
     let it = new Item(text);
 
     setItems([...items, it]);
+    onHideModal();
   }
 
   function onItemDeleted(item) {
@@ -53,12 +57,24 @@ function Todo() {
     setItems(updatedItems);
   }
 
+  // função para esconder o modal ao clicar na área externa do modal
+  function onHideModal() {
+    setShowModal(false);
+  }
+
   return(
     <div className="container">
+      <header className="header">
       <h1>Todo</h1>
+      <button onClick={()=>{setShowModal(true)}} className="addButton">+</button>
+      </header>
+      
 
-      <TodoForm onAddItem={onAddItem}></TodoForm>
       <List onDone={onDone} onItemDeleted={onItemDeleted} items={items}></List>
+
+      <Modal show={showModal} onHideModal={onHideModal}>
+        <TodoForm onAddItem={onAddItem}></TodoForm>
+      </Modal>
     </div>
   )
 }
