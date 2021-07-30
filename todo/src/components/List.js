@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 // importando o componente listItem
 import ListItem from "./ListItem";
 
@@ -6,10 +7,12 @@ import ListItem from "./ListItem";
 // criando o componente que mostra a lista
 function List(props) {
 
+  const items = useSelector(state=>state);
+
   return (
     <ul>
       {/* adicionando o novo item a lista */}
-      {props.items.map(item => <ListItem key={item.id} item={item} onDone={props.onDone} onItemDeleted={props.onItemDeleted}></ListItem>)}
+      {items.map(item => <ListItem key={item.id} item={item}></ListItem>)}
     </ul>
   )
 }
